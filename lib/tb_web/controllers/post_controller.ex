@@ -4,11 +4,11 @@ defmodule TBWeb.PostController do
   alias TB.Blog
   alias TB.Blog.Post
 
-  action_fallback TBWeb.FallbackController
+  #action_fallback TBWeb.FallbackController
 
-  def index(conn, _params) do
+  def index(conn, params) do
     posts = Blog.list_posts()
-    render(conn, "index.json", posts: posts)
+    render(conn, "index.json", %{posts: posts, conn: conn, params: params})
   end
 
   def create(conn, %{"post" => post_params}) do
@@ -20,9 +20,9 @@ defmodule TBWeb.PostController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id} = params) do
     post = Blog.get_post!(id)
-    render(conn, "show.json", post: post)
+    render(conn, "show.json", %{post: post, conn: conn, params: params})
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do

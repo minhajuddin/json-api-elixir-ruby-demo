@@ -1,17 +1,13 @@
 defmodule TBWeb.CommentView do
-  use TBWeb, :view
-  alias TBWeb.CommentView
+  use JSONAPI.View, type: "comments"
 
-  def render("index.json", %{comments: comments}) do
-    %{data: render_many(comments, CommentView, "comment.json")}
+  def fields do
+    [:body]
   end
 
-  def render("show.json", %{comment: comment}) do
-    %{data: render_one(comment, CommentView, "comment.json")}
+  def render("index.json", %{comments: comments, conn: conn, params: params}) do
+    TBWeb.CommentView.index(comments, conn, params)
+    |> IO.inspect(label: "CCCCCCCCCCCCCCCCCCCC")
   end
 
-  def render("comment.json", %{comment: comment}) do
-    %{id: comment.id,
-      body: comment.body}
-  end
 end

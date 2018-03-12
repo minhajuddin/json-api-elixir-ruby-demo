@@ -6,9 +6,9 @@ defmodule TBWeb.CommentController do
 
   action_fallback TBWeb.FallbackController
 
-  def index(conn, _params) do
+  def index(conn, params) do
     comments = Blog.list_comments()
-    render(conn, "index.json", comments: comments)
+    render(conn, "index.json", %{comments: comments, conn: conn, params: params})
   end
 
   def create(conn, %{"comment" => comment_params}) do
