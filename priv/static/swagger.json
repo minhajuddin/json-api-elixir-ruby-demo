@@ -1,0 +1,105 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/api/users": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "List Users",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UsersResponse"
+            },
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "updated_at": "2017-02-12T13:45:23Z",
+                    "name": "Joe",
+                    "inserted_at": "2017-02-08T12:34:55Z",
+                    "id": 1,
+                    "email": "Joe6@mail.com"
+                  },
+                  {
+                    "updated_at": "2017-02-15T23:15:43Z",
+                    "name": "Jack",
+                    "inserted_at": "2017-02-04T11:24:45Z",
+                    "id": 2,
+                    "email": "Jack7@mail.com"
+                  }
+                ]
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "TBWeb.PostController.index",
+        "description": "List all users in the database"
+      }
+    }
+  },
+  "info": {
+    "version": "1.0",
+    "title": "Blog app"
+  },
+  "host": "localhost:4000",
+  "definitions": {
+    "Users": {
+      "type": "array",
+      "title": "Users",
+      "items": {
+        "$ref": "#/definitions/User"
+      },
+      "description": "A collection of Users"
+    },
+    "User": {
+      "type": "object",
+      "title": "User",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "subscribe_to_mailing_list": {
+              "type": "boolean",
+              "description": "mailing list subscription",
+              "default": true
+            },
+            "send_special_offers": {
+              "type": "boolean",
+              "description": "special offers list subscription",
+              "default": true
+            }
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Users name"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "address": {
+          "type": "string",
+          "description": "Home address"
+        }
+      },
+      "example": {
+        "name": "Joe",
+        "id": "123",
+        "address": "742 Evergreen Terrace"
+      },
+      "description": "A user of the application"
+    }
+  }
+}

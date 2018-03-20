@@ -26,4 +26,17 @@ defmodule TBWeb.Router do
     resources("/posts", PostController, except: [:new, :edit])
     resources("/comments", CommentController, except: [:new, :edit])
   end
+
+  scope "/api/swagger" do
+    forward("/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :tb, swagger_file: "swagger.json")
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Blog app"
+      }
+    }
+  end
 end

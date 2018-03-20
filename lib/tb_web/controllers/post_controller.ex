@@ -4,7 +4,58 @@ defmodule TBWeb.PostController do
   alias TB.Blog
   alias TB.Blog.Post
 
-  #action_fallback TBWeb.FallbackController
+  use PhoenixSwagger
+
+  def swagger_definitions do
+    %{
+      User: swagger_schema do
+          title("User")
+          description("A user of the application")
+
+          properties do
+            name(:string, "Users name", required: true)
+            id(:string, "Unique identifier", required: true)
+            address(:string, "Home address")
+
+            preferences(
+              Schema.new do
+                properties do
+                  subscribe_to_mailing_list(:boolean, "mailing list subscription", default: true)
+                  send_special_offers(:boolean, "special offers list subscription", default: true)
+                end
+              end
+            )
+          end
+
+          example(%{
+            name: "Joe",
+            id: "123",
+            address: "742 Evergreen Terrace"
+          })
+        end,
+      Users: swagger_schema do
+          title("Users")
+          description("A collection of Users")
+          type(:array)
+          items(Schema.ref(:User))
+        end
+    }
+  end
+
+  swagger_path(:index) do
+    get "/api/users"
+    summary "List Users"
+    description "List all users in the database"
+    produces "application/json"
+    response 200, "OK", Schema.ref(:UsersResponse), example: %{
+      data: [
+        %{id: 1, name: "Joe", email: "Joe6@mail.com", inserted_at: "2017-02-08T12:34:55Z", updated_at: "2017-02-12T13:45:23Z"},
+        %{id: 2, name: "Jack", email: "Jack7@mail.com", inserted_at: "2017-02-04T11:24:45Z", updated_at: "2017-02-15T23:15:43Z"}
+      ]
+    }
+  end
+
+  # action_fallback TBWeb.FallbackController
 
   def index(conn, params) do
     posts = Blog.list_posts()
@@ -35,6 +86,7 @@ defmodule TBWeb.PostController do
 
   def delete(conn, %{"id" => id}) do
     post = Blog.get_post!(id)
+
     with {:ok, %Post{}} <- Blog.delete_post(post) do
       send_resp(conn, :no_content, "")
     end
