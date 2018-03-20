@@ -50,6 +50,20 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "UsersResponse": {
+      "type": "object",
+      "title": "UsersReponse",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "description": "The users details"
+        }
+      },
+      "description": "Response schema for multiple users"
+    },
     "Users": {
       "type": "array",
       "title": "Users",
@@ -57,6 +71,17 @@
         "$ref": "#/definitions/User"
       },
       "description": "A collection of Users"
+    },
+    "UserResponse": {
+      "type": "object",
+      "title": "UserResponse",
+      "properties": {
+        "data": {
+          "description": "The user details",
+          "$ref": "#/definitions/User"
+        }
+      },
+      "description": "Response schema for single user"
     },
     "User": {
       "type": "object",
